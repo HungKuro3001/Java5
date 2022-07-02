@@ -1,0 +1,85 @@
+package com.fpoly.shop.api.admin;
+
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.fpoly.shop.entities.Manufacturer;
+import com.fpoly.shop.entities.ResponseObject;
+import com.fpoly.shop.service.ManufacturerService;
+
+@RestController
+@RequestMapping("/api/nhan-hieu")
+public class HangSXApi {
+
+	@Autowired
+	private ManufacturerService service;
+
+	@GetMapping("/all")
+	public Page<Manufacturer> getAllHangSanXuat(@RequestParam(defaultValue = "1") int page) {
+		return service.getAllManufacters(page-1,6);
+	}
+
+	@GetMapping("/{id}")
+	public Manufacturer getHangSanXuatById(@PathVariable long id) {
+		return service.getManufacturerById(id);
+	}
+
+	@PostMapping(value = "/save")
+	public ResponseObject addHangSanXuat(@RequestBody @Valid Manufacturer newHangSanXuat, BindingResult result) {
+
+		ResponseObject ro = new ResponseObject();
+
+		if (result.hasErrors()) {
+			Map<String, String> errors = result.getFieldErrors().stream()
+					.collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
+			ro.setErrorMessages(errors);
+			ro.setStatus("fail");
+		} else {
+			service.save(newHangSanXuat);
+			ro.setData(newHangSanXuat);
+			ro.setStatus("success");
+		}
+		return ro;
+	}
+
+	@PutMapping(value = "/update")
+	public ResponseObject updateHangSanXuat(@RequestBody @Valid Manufacturer editHangSanXuat, BindingResult result) {
+
+		ResponseObject ro = new ResponseObject();
+		if (result.hasErrors()) {
+			Map<String, String> errors = result.getFieldErrors().stream()
+					.collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
+			ro.setErrorMessages(errors);
+			ro.setStatus("fail");
+			errors = null;
+		} else {
+			service.update(editHangSanXuat);
+			ro.setData(editHangSanXuat);
+			ro.setStatus("success");
+		}
+
+		return ro;
+	}
+
+	@DeleteMapping("/delete/{id}")
+	public String deleteHangSanXuat(@PathVariable long id) {
+		service.deleteById(id);
+		return "OK !";
+	}
+}

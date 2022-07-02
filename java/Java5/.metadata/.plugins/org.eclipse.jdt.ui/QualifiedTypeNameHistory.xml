@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="javax.persistence.Table"/>
+    <fullyQualifiedTypeName name="java.util.Date"/>
+    <fullyQualifiedTypeName name="lombok.Getter"/>
+    <fullyQualifiedTypeName name="lombok.Setter"/>
+    <fullyQualifiedTypeName name="java.util.Locale.Category"/>
+    <fullyQualifiedTypeName name="lombok.AllArgsConstructor"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="com.fpoly.dto.SearchOrderObject"/>
+    <fullyQualifiedTypeName name="com.fpoly.entities.Order"/>
+    <fullyQualifiedTypeName name="com.fpoly.entities.Category"/>
+    <fullyQualifiedTypeName name="com.fpoly.service.CategoryService"/>
+    <fullyQualifiedTypeName name="com.fpoly.service.IndexCartService"/>
+    <fullyQualifiedTypeName name="com.fpoly.entities.CartIndex"/>
+    <fullyQualifiedTypeName name="com.fpoly.entities.Cart"/>
+    <fullyQualifiedTypeName name="com.fpoly.service.UserService"/>
+    <fullyQualifiedTypeName name="com.fpoly.dto.AccountDTO"/>
+    <fullyQualifiedTypeName name="com.fpoly.repository.UserRepository"/>
+    <fullyQualifiedTypeName name="com.fpoly.service.RoleService"/>
+    <fullyQualifiedTypeName name="com.fpoly.repository.RoleRepository"/>
+    <fullyQualifiedTypeName name="com.fpoly.entities.Role"/>
+    <fullyQualifiedTypeName name="com.fpoly.service.TrainService"/>
+    <fullyQualifiedTypeName name="com.fpoly.repository.TrainRepository"/>
+    <fullyQualifiedTypeName name="com.fpoly.repository.CartIndexRepository"/>
+    <fullyQualifiedTypeName name="com.fpoly.repository.CategoryRepository"/>
+    <fullyQualifiedTypeName name="java.math.BigDecimal"/>
+    <fullyQualifiedTypeName name="com.fpoly.entities.QTrain"/>
+    <fullyQualifiedTypeName name="com.fpoly.service.SecurityService"/>
+    <fullyQualifiedTypeName name="com.fpoly.service.ManufacturerService"/>
+    <fullyQualifiedTypeName name="com.fpoly.repository.ManufacturerRepository"/>
+    <fullyQualifiedTypeName name="com.fpoly.entities.Manufacturer"/>
+    <fullyQualifiedTypeName name="com.fpoly.service.OrderDetailService"/>
+    <fullyQualifiedTypeName name="com.fpoly.repository.OrderDetailRepository"/>
+    <fullyQualifiedTypeName name="com.fpoly.entities.OrderDetail"/>
+    <fullyQualifiedTypeName name="com.fpoly.service.CartService"/>
+    <fullyQualifiedTypeName name="com.fpoly.repository.CartRepository"/>
+    <fullyQualifiedTypeName name="com.fpoly.entities.User"/>
+    <fullyQualifiedTypeName name="com.fpoly.entities.Train"/>
+    <fullyQualifiedTypeName name="com.fpoly.dto.TrainDTO"/>
+    <fullyQualifiedTypeName name="com.fpoly.dto.SearchTrainObject"/>
+</qualifiedTypeNameHistroy>

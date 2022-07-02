@@ -1,0 +1,15 @@
+package com.poly.service;
+
+import java.util.List;
+
+import com.poly.entity.Train;
+import com.poly.entity.LoaiHeo;
+
+public interface IProductService extends IGenaralService<Train> {
+	int pagecount();
+	int count();
+	List<Train> deletes(List<Integer> ids);
+	List<Train> findByType(LoaiHeo type,Integer page);
+	int pagecountByType(LoaiHeo type);
+	int countByType(LoaiHeo type);
+}

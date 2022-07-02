@@ -1,0 +1,20 @@
+package com.fpoly.shop.repository;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.fpoly.shop.entities.NguoiDung;
+import com.fpoly.shop.entities.VaiTro;
+
+public interface NguoiDungRepository extends JpaRepository<NguoiDung, Long>{
+
+	NguoiDung findByEmail(String email);
+
+	Page<NguoiDung> findByVaiTro(Set<VaiTro> vaiTro, Pageable of);
+
+
+	List<NguoiDung> findByVaiTro(Set<VaiTro> vaiTro);
+}

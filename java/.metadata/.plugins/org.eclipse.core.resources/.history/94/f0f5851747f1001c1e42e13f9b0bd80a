@@ -1,0 +1,16 @@
+package com.carshop.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.trainshop.entities.ChiMucGioHang;
+import com.trainshop.entities.GioHang;
+import com.trainshop.entities.SanPham;
+
+public interface ChiMucGioHangRepository extends JpaRepository<ChiMucGioHang, Long>{
+	
+	ChiMucGioHang findBySanPhamAndGioHang(SanPham sp,GioHang g);
+	
+	List<ChiMucGioHang> findByGioHang(GioHang g);
+}

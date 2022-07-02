@@ -1,0 +1,54 @@
+package edu.poly.sj5.service;
+
+import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import edu.poly.sj5.model.Cart;
+import edu.poly.sj5.repository.ICartService;
+
+@Service
+public class CartService implements ICartService {
+	private static final String ATT_CART_NAME = "myCart";
+	
+	@Autowired
+	private HttpServletRequest request;
+	// Products in the cart, stored in Session.
+	public Cart getCartInSession() {
+		request.getSession().setAttribute("username","Hung");
+		Cart cart = (Cart) request.getSession().getAttribute(ATT_CART_NAME);
+		if (cart == null) {
+			cart = new Cart();
+			cart.setCartDetails(new HashMap<Integer, Integer>());
+			request.getSession().setAttribute("myCart", cart);
+		}
+		return cart;
+	}
+
+	public void removeCartInSession(HttpServletRequest request) {
+		request.getSession().removeAttribute("myCart");
+	}
+	@Override
+	public void addToCart(int productId, int quantity) {
+		Cart cart = getCartInSession();
+		if(cart.getCartDetails().containsKey(productId)) {
+			int currrentQuantity = cart.getCartDetails().get(productId);
+			
+		}
+		
+		int updatedQuantity = currrentQuantity + quantity;
+		cart.getCartDetails().put(productId, updatedQuantity);
+		
+	}
+	@Override
+	public void changeProductQuantity(int productId, int quantity) {}
+	@Override
+	public void removeProduct(int productId) {}
+	@Override
+	public void removeProducts() {
+		
+	}
+}

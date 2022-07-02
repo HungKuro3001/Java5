@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.config.EnableJpaRepositories"/>
+    <fullyQualifiedTypeName name="com.fpoly.asm.AsmApplication"/>
+    <fullyQualifiedTypeName name="com.fpoly.asm.entity.NguoiDung"/>
+    <fullyQualifiedTypeName name="com.trainshop.entities.NguoiDung"/>
+    <fullyQualifiedTypeName name="com.trainshop.entities.SanPham"/>
+</qualifiedTypeNameHistroy>

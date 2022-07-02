@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul>
+    <!--Duyệt qua toàn bộ phần tử trong biến "lodaProfile"-->
+    <li th:each="info : ${product}">
+    <!--Với mỗi phần tử, lấy ra key và value-->
+    <span th:text="*{info.productName}"></span>
+    </li>
+</ul>
+</body>
+</html>

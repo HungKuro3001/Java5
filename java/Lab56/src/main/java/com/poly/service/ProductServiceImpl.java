@@ -1,0 +1,92 @@
+package com.poly.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.poly.entity.Train;
+import com.poly.entity.TrainType;
+import com.poly.repository.IProductRepository;
+@Service
+public class ProductServiceImpl implements IProductService{
+    @Autowired
+    private IProductRepository reposiroty;
+	@Override
+	public Train insert(Train t) {
+		t.setId(null);
+		return this.reposiroty.save(t);
+	}
+
+	@Override
+	public Train update(Train t) {
+		Integer id = t.getId();
+		if(id != null) {
+			Optional<Train> heoOptional = this.reposiroty.findById(id);
+			if(heoOptional.isPresent()) {
+		          return this.reposiroty.save(t);
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public Train delete(Integer id) {
+		Optional<Train> trainOptional = this.reposiroty.findById(id);
+		if(trainOptional.isPresent()) {
+			this.reposiroty.deleteById(id);
+			return trainOptional.get();
+		}
+		return null;
+	}
+
+	@Override
+	public List<Train> findAll(Integer page) {
+		Pageable pageable = PageRequest.of(page, 5);
+		Page<Train> data = this.reposiroty.findAll(pageable);
+		return data.getContent();
+	}
+	@Override
+	public int pagecount() {
+		long pagecount = this.reposiroty.count();
+		return (int) Math.ceil((double) pagecount/5);
+	}
+
+	@Override
+	public int count() {
+		long count = this.reposiroty.count();
+		return (int) count;
+	}
+
+	@Override
+	public List<Train> deletes(List<Integer> ids) {
+		List<Train> list = this.reposiroty.findAllById(ids);
+		this.reposiroty.deleteAllByIdInBatch(ids);
+		return list;
+	}
+
+	@Override
+	public List<Train> findByType(TrainType type, Integer page) {
+		Pageable pageable = PageRequest.of(page, 5);
+		List<Train> list = this.reposiroty.findByType(type, pageable);
+		return list;
+	}
+
+	@Override
+	public int pagecountByType(TrainType type) {
+		  List<Train> list = this.reposiroty.findBycountType(type);
+		return (int) Math.ceil((double) list.size() /5);
+	}
+
+	@Override
+	public int countByType(TrainType type) {
+		 List<Train> list = this.reposiroty.findBycountType(type);
+		return list.size();
+	}
+	
+
+}

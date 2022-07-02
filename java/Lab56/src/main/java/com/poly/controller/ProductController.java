@@ -1,0 +1,149 @@
+package com.poly.controller;
+
+import java.nio.file.Path;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.poly.entity.Train;
+import com.poly.entity.TrainType;
+import com.poly.service.IProductService;
+
+import lombok.val;
+
+@Controller
+@RequestMapping("/product")
+public class ProductController {
+	@Autowired
+	private IProductService service;
+	@Autowired
+	private HttpSession session;
+
+	@GetMapping("/home")
+	public String index(Model model, @RequestParam(value = "page", required = false) Integer page) {
+		page = page == null ? 0 : page - 1;
+		List<Train> trains = this.service.findAll(page);
+		int pagecount = this.service.pagecount();
+		int count = this.service.count();
+		model.addAttribute("pagecount", pagecount);
+		model.addAttribute("trains", trains);
+		model.addAttribute("count", count);
+		model.addAttribute("type", TrainType.values());
+		model.addAttribute("page",page);
+		return "Home";
+	}
+
+	@GetMapping("/search")
+	public String search(Model model, @RequestParam(value = "type", required = false) String typeString,
+			@RequestParam(value = "page", required = false) Integer page) {
+		page = page == null ? 0 : (page - 1) * 5;
+
+		if (typeString == null || typeString.equals("all")) {
+			return "redirect:/product/home";
+		}
+		TrainType type = TrainType.valueOf(typeString);
+		List<Train> trains = this.service.findByType(type, page);
+		model.addAttribute("trains", trains);
+		model.addAttribute("type", TrainType.values());
+		model.addAttribute("count", this.service.countByType(type));
+		model.addAttribute("pagecount", this.service.pagecountByType(type));
+		model.addAttribute("typeHT", type);
+		model.addAttribute("page",page);
+		return "Home";
+	}
+
+	@PostMapping("/deletes")
+	public String deletes(@RequestParam(value = "id", required = false) Optional<List<Integer>> ids) {
+		if (ids.isPresent()) {
+			this.service.deletes(ids.get());
+			session.setAttribute("alert", "success");
+			session.setAttribute("message", "Xóa thành công");
+
+		} else {
+			session.setAttribute("alert", "danger");
+			session.setAttribute("message", "Bạn chưa chọn bản ghi");
+		}
+		return "redirect:/product/home";
+	}
+
+	@PostMapping("/remove")
+	public String remove(@RequestParam(value = "id") Integer id) {
+
+		if (this.service.delete(id) != null) {
+			session.setAttribute("alert", "success");
+			session.setAttribute("message", "Xóa thành công");
+		} else {
+			session.setAttribute("alert", "danger");
+			session.setAttribute("message", "Xóa thất bại");
+		}
+
+		return "redirect:/product/home";
+	}
+
+	@GetMapping("/edit/{id}")
+	public String edit(Model model, @PathVariable("id") Train train) {
+		model.addAttribute("train", train);
+		model.addAttribute("type", TrainType.values());
+		return "Edit";
+	}
+	@GetMapping("/create")
+	public String create(Model model,@ModelAttribute("train") Train train) {
+		model.addAttribute("type", TrainType.values());
+		return "Create";
+	}
+
+	@PostMapping("/update/{id}")
+	public String update(Model model, @Valid @ModelAttribute("train") Train train,
+			@PathVariable("id") Integer id,
+			BindingResult result
+			) {
+		if(result.hasErrors()) {
+			model.addAttribute("type", TrainType.values());
+			return "Edit";
+		}else {
+	    train.setId(id);
+	    train.setCreatedDate(new java.sql.Date(new java.util.Date().getTime()));;
+		if (this.service.update(train) != null) {
+			session.setAttribute("alert", "success");
+			session.setAttribute("message", "Cập nhật thành công");
+		} else {
+			session.setAttribute("alert", "danger");
+			session.setAttribute("message", "Cập nhật thất bại");
+		}
+		return "redirect:/product/home";
+		}
+	}
+	@PostMapping("/store")
+	public String store(Model model, @Valid @ModelAttribute("train") Train train,
+			BindingResult result
+			) {
+		if(result.hasErrors()) {
+			model.addAttribute("type", TrainType.values());
+			return "Create";
+		}else {
+	    train.setCreatedDate(new Date());
+		if (this.service.insert(train) != null) {
+			session.setAttribute("alert", "success");
+			session.setAttribute("message", "Thêm thành công");
+		} else {
+			session.setAttribute("alert", "danger");
+			session.setAttribute("message", "Thêm thất bại");
+		}
+		return "redirect:/product/home";
+		}
+	}
+}
